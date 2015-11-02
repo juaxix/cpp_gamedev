@@ -9,5 +9,6 @@ int main(char **argv, int argc)
 	while(!game->playerWantToExit){
 		game->Loop();
 	}
+	return 0;
 }
 
