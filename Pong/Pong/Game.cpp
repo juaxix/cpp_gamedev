@@ -1,7 +1,7 @@
 /**
  @file Game.cpp
  @brief Main Class of the Simple Pong Game
- @author Juan Belón Pérez
+ @author Juan BelÃ³n PÃ©rez
  @date 01/11/2015
 */
 #include "Game.h"
@@ -300,5 +300,6 @@ void Game::Loop()
 */
 Game::~Game(void)
 {
-	//destroy anything
+     //destroy anything
+     delete window;	
 }
