@@ -9,6 +9,8 @@ int main(char **argv, int argc)
 	while(!game->playerWantToExit){
 		game->Loop();
 	}
+	//clear memory, avoid leaks!
+	delete game;
 	return 0;
 }
 
