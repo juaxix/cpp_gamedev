@@ -7,10 +7,13 @@ MainGame::MainGame():
 	_time(0),
 	_maxFPS(60)
 {
+	//Init the camera
+	_camera.init(_screenWidth, _screenHeight);
 }
 
 MainGame::~MainGame()
 {
+
 }
 
 bool MainGame::initShaders() 
@@ -40,12 +43,9 @@ bool MainGame::initSystems()
 {
 	_screenWidth = 800;
 	_screenHeight = 640;
-	
+	xixEngine::init();
 	if (_window.create("Graphics SDL tests", _screenWidth, _screenHeight, 0))
 	{
-		//Init the camera
-		_camera.init(_screenWidth, _screenHeight);
-
 		//Load and compile all the shaders:
 		initShaders();
 
@@ -68,13 +68,14 @@ void MainGame::run()
 		//change the game state:
 		_gameState = GameState::PLAY;
 		//let's initialize the sprites: old method with sprites directly, now we use SpriteBatch
-		/*
+		
 		//from the left bottom corner to the center
-		_sprites.push_back(new xixEngine::Sprite());
-		_sprites.back()->init(0.0f, 0.0f, _screenWidth/2, _screenWidth / 2, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
-		_sprites.push_back(new xixEngine::Sprite());
-		_sprites.back()->init(_screenWidth / 2, 0.0f, _screenWidth / 2, _screenWidth / 2, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
-		*/
+		//_sprites.push_back(new xixEngine::Sprite());
+		//_sprites.back()->init(0.0f, 0.0f, _screenWidth/2, _screenWidth / 2, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
+		//_sprites.push_back(new xixEngine::Sprite());
+		//_sprites.back()->init(_screenWidth / 2, 0.0f, _screenWidth / 2, _screenWidth / 2, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
+		
+
 		//Start the loop
 		this->gameLoop();
 	}
@@ -162,7 +163,7 @@ void MainGame::processInput()
 			playerPosition, 
 			shootDirection, 
 			5.0f, 
-			"Textures/jimmyJump_pack/Bullet.png",
+			//"Textures/jimmyJump_pack/Bullet.png",
 			100
 		);
 	}
@@ -187,26 +188,26 @@ void MainGame::drawGame()
 	GLint textureLocation = _colorProgram.getUniformLocation("tSampler");
 	glUniform1i(textureLocation, 0);
 
-	/*GLuint timeLocation = _colorProgram.getUniformLocation("time");
+	//GLuint timeLocation = _colorProgram.getUniformLocation("time");
 	//Set time to the GPU
-	glUniform1f(timeLocation, _time);
-	*/
+	//glUniform1f(timeLocation, _time);
+	
 	GLuint camPositionLocation = _colorProgram.getUniformLocation("camPosition");
 	glm::mat4 cameraMatrix = _camera.getCamMatrix();
 	glUniformMatrix4fv(camPositionLocation, 1, GL_FALSE, &(cameraMatrix[0][0])// address of the first element 
 	);
 	
 	//Example: Draw a polygon
-	/*
-	glEnableClientState(GL_COLOR_ARRAY);
-	glBegin(GL_TRIANGLES);
-		//Color:
-		glColor3f(0.7f,0.2f,0.1f);
-		glVertex2f(0, 0);
-		glVertex2f(0, 1);
-		glVertex2f(1, 1);
-	glEnd();
-	*/
+	
+	//glEnableClientState(GL_COLOR_ARRAY);
+	//glBegin(GL_TRIANGLES);
+	//	//Color:
+	//	glColor3f(0.7f,0.2f,0.1f);
+	//	glVertex2f(0, 0);
+	//	glVertex2f(0, 1);
+	//	glVertex2f(1, 1);
+	//glEnd();
+	
 
 	//Draw sprites from game entities: first player
 	_spriteBatch.begin();
@@ -215,21 +216,21 @@ void MainGame::drawGame()
 	glm::vec4 sUV(0.0f, 0.0f, 1.0f, 1.0f);
 	static xixEngine::GLTexture sTexture = xixEngine::ResourceManager::getTexture("Textures/jimmyJump_pack/CharacterRight_Standing.png");
 	xixEngine::Color sColor;
-	sColor.set(255, 255, 255, 255);
+	sColor.r = sColor.g = sColor.b = sColor.a = 255;
 	
 	_spriteBatch.draw(
-		sPos, sUV, sTexture.id, 0.0f /*depth*/, sColor
+		sPos, sUV, sTexture.id, 0.0f, sColor
 	);
 	
 	//now bullets
 	for (int i = 0; i < _bullets.size(); i++)
 	{
 		_bullets[i].draw(_spriteBatch);
-		_spriteBatch.draw(
-			glm::vec4(
-				_bullets[i].getPosition().x, _bullets[i].getPosition().y,_bullets[i].getSize(), _bullets[i].getSize()
-			), sUV, _bullets[i].getTexture().id, 0.0f, _bullets[i].getColor()
-		);
+		//_spriteBatch.draw(
+		//	glm::vec4(
+		//		_bullets[i].getPosition().x, _bullets[i].getPosition//().y,_bullets[i].getSize(), _bullets[i].getSize()
+		//	), sUV, _bullets[i].getTexture().id, 0.0f, _bullets//[i].getColor()
+		//);
 	}
 	
 	_spriteBatch.end();
@@ -255,21 +256,20 @@ void MainGame::gameLoop()
 		_fpsLimiter.begin();
 
 		processInput();
-		_time += 0.01f;
+		_time += 0.1f;
 		//Update the camera
 		_camera.update();
 
 		//update all the bullets
 		for (int i = 0; i < _bullets.size();)
 		{
-			if (_bullets[i].isAlife()) {
-				_bullets[i].update();
-				i++;
-			}
-			else {
+			if(_bullets[i].update()) {
 				//destroy by swapping
 				_bullets[i] = _bullets.back();
 				_bullets.pop_back();
+			}
+			else {
+				i++;
 			}
 		}
 
@@ -289,4 +289,3 @@ void MainGame::gameLoop()
 		}
 	}
 }
-

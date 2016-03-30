@@ -5,10 +5,9 @@ in vec2 vertexPosition; //x,y
 in vec4 vertexColor; //r,g,b,a
 in vec2 vertexUV;
 
-
-out vec2 fragmentPosition;
 out vec4 fragmentColor; //must have the same name in the fragment shader
 //to avoid the interpolation we can use "flat" before out
+out vec2 fragmentPosition;
 out vec2 fragmentUV;
 
 uniform mat4 camPosition; //to get normalized position in the camera

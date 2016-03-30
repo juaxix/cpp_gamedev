@@ -11,9 +11,7 @@ namespace xixEngine {
 		GLubyte g;
 		GLubyte b;
 		GLubyte a;
-		void set(GLubyte R, GLubyte G, GLubyte B, GLubyte A) {
-			r = R; g = G; b = B; a = A;
-		}
+		
 	};
 
 	struct UV {
@@ -40,7 +38,10 @@ namespace xixEngine {
 
 		//Set the color function
 		void setColor(GLubyte r, GLubyte g, GLubyte b, GLubyte a) {
-			color.set(r, g, b, a);
+			color.r = r;
+			color.g = g;
+			color.b = b;
+			color.a = a;
 		}
 		void setUV(float u, float v) {
 			uv.u = u;

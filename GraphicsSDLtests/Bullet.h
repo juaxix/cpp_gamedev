@@ -3,6 +3,7 @@
 #include <xixEngine/SpriteBatch.h>
 #include <xixEngine/ResourceManager.h>
 #include <string>
+/*
 class Bullet
 {
 private:
@@ -17,7 +18,6 @@ private:
 	xixEngine::GLTexture _texture;
 
 public:
-	Bullet();
 	Bullet(glm::vec2 position, glm::vec2 direction, float speed, const std::string& texturePath, int lifeTime);
 	~Bullet();
 	
@@ -35,4 +35,21 @@ public:
 	void update();
 	bool isAlife() { return (_lifeTime > 0.0f); }
 };
+*/
 
+class Bullet
+{
+public:
+	Bullet(glm::vec2 pos, glm::vec2 dir, float speed, int lifeTime);
+	~Bullet();
+
+	void draw(xixEngine::SpriteBatch& spriteBatch);
+	// Returns true when we are out of life
+	bool update();
+
+private:
+	int _lifeTime;
+	float _speed;
+	glm::vec2 _direction;
+	glm::vec2 _position;
+};

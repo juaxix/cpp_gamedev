@@ -31,11 +31,11 @@ void main()
 		tSampler, /* UV coordinates */
 		fragmentUV
 	);
-	color = textureColor * fragmentColor; /* * //color blending equals to multiplication
-	vec4(
-		fragmentColor.r * (cos(fragmentPosition.x *4.0 + time) + 1.0)*0.5,
-		fragmentColor.g * (cos(fragmentPosition.y * 8.0 + time) + 1.0)*0.5,
-		fragmentColor.b * (cos(3.14 * time) + 1.0)*0.5,
-		fragmentColor.a
-	);*/
+	color = textureColor * fragmentColor; //color blending equals to multiplication
+	//vec4(
+	//	fragmentColor.r * (cos(fragmentPosition.x *4.0 + time) + 1.0)*0.5,
+	//		fragmentColor.g * (cos(fragmentPosition.y * 8.0 + time) + 1.0)*0.5,
+	//	fragmentColor.b * (cos(3.14 * time) + 1.0)*0.5,
+	//		fragmentColor.a
+	//	);
 }

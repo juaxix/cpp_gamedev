@@ -171,7 +171,7 @@ namespace xixEngine {
 		}
 	}
 
-	GLuint GLSLProgram::getUniformLocation(const std::string& uniformName)
+	GLint GLSLProgram::getUniformLocation(const std::string& uniformName)
 	{
 		if (_programID == 0)
 		{

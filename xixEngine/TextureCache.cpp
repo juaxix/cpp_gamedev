@@ -1,5 +1,6 @@
 #include "TextureCache.h"
 namespace xixEngine {
+	
 	TextureCache::TextureCache()
 	{
 	}
@@ -11,8 +12,8 @@ namespace xixEngine {
 
 	GLTexture TextureCache::getTexture(const std::string& texturePath)
 	{
-		/*std::map<std::string,GLTexture>::iterator */
-		/* is the same as auto ,it needs the initialization to be valid*/
+		//std::map<std::string,GLTexture>::iterator 
+		// is the same as auto ,it needs the initialization to be valid
 		auto it = _textureMap.find(texturePath); //search
 		if (it == _textureMap.end())
 		{
@@ -29,5 +30,7 @@ namespace xixEngine {
 		}
 		return it->second; //second element is the GLTexture
 	}
+	
+	
 
 }
