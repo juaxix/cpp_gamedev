@@ -1,13 +1,10 @@
 #include "MainGame.h"
 
 MainGame::MainGame(): 
-	_window(nullptr), 
 	_screenWidth(800),
 	_screenHeight(640), 
 	_gameState(GameState::IDLE),
 	_time(0),
-	_fps(0),
-	_frameTime(0),
 	_maxFPS(60)
 {
 }
@@ -43,41 +40,26 @@ bool MainGame::initSystems()
 {
 	_screenWidth = 800;
 	_screenHeight = 640;
-	SDL_Init(SDL_INIT_EVERYTHING);
-	_window = SDL_CreateWindow(
-		"Graphics SDL tests", 
-		SDL_WINDOWPOS_CENTERED, 
-		SDL_WINDOWPOS_CENTERED,
-		_screenWidth,
-		_screenHeight,
-		SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN
-	);
-	if (_window == nullptr) 
+	
+	if (_window.create("Graphics SDL tests", _screenWidth, _screenHeight, 0))
 	{
-		fatalError("SDL Window could not be created");
+		//Init the camera
+		_camera.init(_screenWidth, _screenHeight);
+
+		//Load and compile all the shaders:
+		initShaders();
+
+		//Now we can init the sprite batch
+		_spriteBatch.init();
+
+		//Limit the fps
+		_fpsLimiter.init(_maxFPS);
+		return true;
+	}
+	else {
 		return false;
 	}
-	SDL_GLContext glContext = SDL_GL_CreateContext(_window);
-	if (glContext == nullptr)
-	{
-		fatalError("SDL GL Context could not be created");
-		return false;
-	}
-	//Avoid weird errors (optional)
-	glewExperimental = true;
-	//init GLU extensions
-	GLenum errorGL = glewInit();
-	if (errorGL != GLEW_OK)
-	{
-		fatalError("Could not initialized glew");
-		return false;
-	}
-	//We want to have 2 windows, one for drawing and another for buffering
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	//Set the color for clean the screen
-	glClearColor(0.1f, 0.3f, 0.5f, 1.0f);
-	initShaders();
-	return true;
+	
 }
 
 void MainGame::run()
@@ -85,16 +67,14 @@ void MainGame::run()
 	if (initSystems()) {
 		//change the game state:
 		_gameState = GameState::PLAY;
-		//let's initialize the sprite
-		_sprite.init(-1.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/CharacterRight_Standing.png"); //from the left bottom corner to the center
-
-		//more sprites
-		_sprites.push_back(new Sprite());
-		_sprites.back()->init(0, -1, 1, 1, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
-		_sprites.push_back(new Sprite());
-		_sprites.back()->init(0, 0, 1, 1, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
-		_sprites.push_back(new Sprite());
-		_sprites.back()->init(-1, 0, 1, 1, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
+		//let's initialize the sprites: old method with sprites directly, now we use SpriteBatch
+		/*
+		//from the left bottom corner to the center
+		_sprites.push_back(new xixEngine::Sprite());
+		_sprites.back()->init(0.0f, 0.0f, _screenWidth/2, _screenWidth / 2, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
+		_sprites.push_back(new xixEngine::Sprite());
+		_sprites.back()->init(_screenWidth / 2, 0.0f, _screenWidth / 2, _screenWidth / 2, "Textures/jimmyJump_pack/CharacterRight_Standing.png");
+		*/
 		//Start the loop
 		this->gameLoop();
 	}
@@ -103,6 +83,7 @@ void MainGame::run()
 void MainGame::processInput()
 {
 	SDL_Event e;
+	const float CAMERA_SPEED = 10.0f;
 	while (SDL_PollEvent(&e)) 
 	{
 		switch (e.type)
@@ -111,12 +92,79 @@ void MainGame::processInput()
 			_gameState = GameState::EXIT;
 			return;
 			break;
+		
+		case SDL_KEYDOWN:
+			_inputManager.pressKey(e.key.keysym.sym);
+			break;
+		case SDL_KEYUP:
+			_inputManager.releaseKey(e.key.keysym.sym);
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			_inputManager.pressKey(e.button.button);
+			break;
+		case SDL_MOUSEBUTTONUP:
+			_inputManager.releaseKey(e.button.button);
+			break;
 		case SDL_MOUSEMOTION:
 			//std::cout << e.motion.x << "," << e.motion.y<<std::endl;
-			break;
-		default:
+			_inputManager.setMouseCoords(e.motion.x, e.motion.y);
 			break;
 		}
+	}
+	
+	if (_inputManager.isKeyPressed(SDLK_w))
+		_camera.setPosition(
+			_camera.getPosition() +
+			glm::vec2(0.0, -CAMERA_SPEED)
+	);
+			
+	if (_inputManager.isKeyPressed(SDLK_a))
+		_camera.setPosition(
+			_camera.getPosition() +
+			glm::vec2(CAMERA_SPEED, 0.0)
+	);
+			
+	if (_inputManager.isKeyPressed(SDLK_d))
+		_camera.setPosition(
+			_camera.getPosition() +
+			glm::vec2(-CAMERA_SPEED, 0.0)
+	);
+			
+	if (_inputManager.isKeyPressed(SDLK_s))
+		_camera.setPosition(
+			_camera.getPosition() +
+			glm::vec2(0.0, CAMERA_SPEED)
+	);
+			
+	if (_inputManager.isKeyPressed(SDLK_q))
+		_camera.setScale(
+			_camera.getScale() + 0.1f
+	);
+			
+	if (_inputManager.isKeyPressed(SDLK_e))
+		_camera.setScale(
+			_camera.getScale() - 0.1f
+	);
+	//SHOOT
+	if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) 
+	{
+		glm::vec2 mouseWCoords = _camera.getScreenToWorldCoords(
+			_inputManager.getMouseCoords()
+		);
+		
+		glm::vec2 playerPosition(0.0);
+		glm::vec2 shootDirection = mouseWCoords - playerPosition;
+		//normalize direction
+		shootDirection = glm::normalize(shootDirection);
+		//std::cout<< "Bullet is going in dir:" << shootDirection.x << "," << shootDirection.y <<std::endl;
+		//Create bullet
+		_bullets.emplace_back(
+			playerPosition, 
+			shootDirection, 
+			5.0f, 
+			"Textures/jimmyJump_pack/Bullet.png",
+			100
+		);
 	}
 }
 
@@ -139,10 +187,15 @@ void MainGame::drawGame()
 	GLint textureLocation = _colorProgram.getUniformLocation("tSampler");
 	glUniform1i(textureLocation, 0);
 
-	GLuint timeLocation = _colorProgram.getUniformLocation("time");
+	/*GLuint timeLocation = _colorProgram.getUniformLocation("time");
 	//Set time to the GPU
 	glUniform1f(timeLocation, _time);
-
+	*/
+	GLuint camPositionLocation = _colorProgram.getUniformLocation("camPosition");
+	glm::mat4 cameraMatrix = _camera.getCamMatrix();
+	glUniformMatrix4fv(camPositionLocation, 1, GL_FALSE, &(cameraMatrix[0][0])// address of the first element 
+	);
+	
 	//Example: Draw a polygon
 	/*
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -155,80 +208,84 @@ void MainGame::drawGame()
 	glEnd();
 	*/
 
-	//Draw a sprite
-	_sprite.draw();
-	//More sprites draw
-	for (int i = 0; i < _sprites.size(); i++)
-	{
-		_sprites[i]->draw();
-	}
-		
-	_colorProgram.unUse();
-	//unbind the player texture
-	glBindTexture(GL_TEXTURE_2D, 0);
-	//Now we swap the buffers and draw everything to the screen
-	SDL_GL_SwapWindow(_window);
+	//Draw sprites from game entities: first player
+	_spriteBatch.begin();
+	//Sprite info
+	glm::vec4 sPos(0.0, 0.0, 50.0, 50.0);
+	glm::vec4 sUV(0.0f, 0.0f, 1.0f, 1.0f);
+	static xixEngine::GLTexture sTexture = xixEngine::ResourceManager::getTexture("Textures/jimmyJump_pack/CharacterRight_Standing.png");
+	xixEngine::Color sColor;
+	sColor.set(255, 255, 255, 255);
 	
+	_spriteBatch.draw(
+		sPos, sUV, sTexture.id, 0.0f /*depth*/, sColor
+	);
+	
+	//now bullets
+	for (int i = 0; i < _bullets.size(); i++)
+	{
+		_bullets[i].draw(_spriteBatch);
+		_spriteBatch.draw(
+			glm::vec4(
+				_bullets[i].getPosition().x, _bullets[i].getPosition().y,_bullets[i].getSize(), _bullets[i].getSize()
+			), sUV, _bullets[i].getTexture().id, 0.0f, _bullets[i].getColor()
+		);
+	}
+	
+	_spriteBatch.end();
+	_spriteBatch.renderBatch();
+	
+	//unbind the texture
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//disable the shader
+	_colorProgram.unUse();
+
+	//Now we swap the buffers and draw everything to the screen
+	_window.swapBuffers();
 }
 
-void MainGame::calculateFPS()
-{
-	//vars that only can be changed here:
-	static const int NUM_SAMPLES = 100;
-	static float frameTimes[NUM_SAMPLES];
-	static float prevTicks = SDL_GetTicks();
-	static int currentFrame = 0;
-	//get current ticks and compare with previous ticks
-	float currentTicks = SDL_GetTicks();
-	
-	_frameTime = currentTicks - prevTicks;
-	frameTimes[currentFrame%NUM_SAMPLES] = _frameTime;
-	prevTicks = currentTicks;
-	int count;  //number of measures
-	currentFrame++; //first frame 1:avoid division by zero
-	if (currentFrame < NUM_SAMPLES) 
-	{
-		count = currentFrame;
-	} else {
-		count = NUM_SAMPLES;
-	}
-	float frameTimeAverage = 0;
-	for (int i = 0; i < count; i++)
-	{
-		frameTimeAverage += frameTimes[i];
-	}
-	frameTimeAverage /= count;
-	if (frameTimeAverage > 0)
-	{
-		_fps = 1000.0f / frameTimeAverage;
-	} else {
-		_fps = 60.0f;
-	}
-	
-	//Print the result once 100 frames only
-	if (fmodf(currentFrame, 100.0f) == 0)
-		std::cout << _fps << "(" << _frameTime << ")" << std::endl;
-	
-}
+
 
 void MainGame::gameLoop()
 {
-	while (_gameState != GameState::EXIT) 
+	while (_gameState != GameState::EXIT)
 	{
 		//use for frame time measuring
-		float startTicks = SDL_GetTicks();
-		
+		_fpsLimiter.begin();
+
 		processInput();
 		_time += 0.01f;
-		drawGame();
-		calculateFPS();
+		//Update the camera
+		_camera.update();
 
-		//Limit the FPS:
-		float frameTicks = SDL_GetTicks() - startTicks;
-		if (1000.0f /*millisec*/ / _maxFPS > frameTicks)
+		//update all the bullets
+		for (int i = 0; i < _bullets.size();)
 		{
-			//wait a little longer, delay the programs execution
-			SDL_Delay(1000.0f / _maxFPS - frameTicks);//some windows does not accept a minimum number to delay programs
+			if (_bullets[i].isAlife()) {
+				_bullets[i].update();
+				i++;
+			}
+			else {
+				//destroy by swapping
+				_bullets[i] = _bullets.back();
+				_bullets.pop_back();
+			}
+		}
+
+		drawGame();
+		
+		//Print the result once 100 frames only
+		static unsigned int currentFrame = 0;
+		currentFrame++;
+
+		//End of the FPS measures
+		_fpsLimiter.end();
+		//Show FPS only each 1k frames
+		if (currentFrame == 1000) 
+		{
+			std::cout << _fpsLimiter.getFPS() << " FPS" << std::endl;
+			currentFrame = 0;
 		}
 	}
 }

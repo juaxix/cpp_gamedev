@@ -4,9 +4,11 @@
 #include "picopng.h"
 #include "IOManager.h"
 #include "Errors.h"
-class ImageLoader
-{
-public:
-	static GLTexture loadPNG(std::string filePath);
-};
-
+namespace xixEngine {
+	class ImageLoader
+	{
+	public:
+		static GLTexture loadPNG(std::string filePath);
+	};
+	
+}

@@ -5,14 +5,20 @@ in vec2 vertexPosition; //x,y
 in vec4 vertexColor; //r,g,b,a
 in vec2 vertexUV;
 
+
+out vec2 fragmentPosition;
 out vec4 fragmentColor; //must have the same name in the fragment shader
 //to avoid the interpolation we can use "flat" before out
-out vec2 fragmentPosition;
 out vec2 fragmentUV;
+
+uniform mat4 camPosition; //to get normalized position in the camera
+
 void main()
 {
 	//set the x,y position on the screen
-	gl_Position.xy = vertexPosition; //swiz , we can do 2 times the position for example
+	gl_Position.xy //swiz , we can do 2 times the position for example
+		= (camPosition *vec4(vertexPosition, 0.0, 1.0)).xy
+	; 
 	//The z position is 0 because we are in 2D mode
 	gl_Position.z = 0.0;
 	//indicate that the coordinates are normalized

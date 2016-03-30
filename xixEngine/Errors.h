@@ -4,5 +4,7 @@
 #include <iostream>
 #include <conio.h>
 #include <cstdlib>
-//Helpers functions
-void fatalError(std::string errorString);
+namespace xixEngine {
+	//Helpers functions
+	void fatalError(std::string errorString);
+}
