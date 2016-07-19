@@ -1,0 +1,13 @@
+*.sdf
+*.tlog
+*.iobj
+*.opendb
+xcode/King Miner Speed/DerivedData
+vs/msvc/Debug/
+vs/KingEngine/Debug/
+vs/Debug/
+vs/bin/assets/highscore.dat
+xcode/King Miner Speed/build/Debug/King Miner Speed.build
+xcode/King Miner Speed/Debug/King Miner Speed.build
+xcode/King Miner Speed/KingEngine/build/KingEngine.build
+vs/Worktest.VC.db
