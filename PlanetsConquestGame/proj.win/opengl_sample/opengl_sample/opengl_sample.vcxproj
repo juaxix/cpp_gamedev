@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5EC5732C-A447-4237-9DF3-73BF0A603ECE}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>opengl_sample</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)\..\..\lib\glfw\include;$(SolutionDir)\..\..\lib\glfw\deps;$(SolutionDir)\..\..\lib\glm;$(SolutionDir)\..\..\src;$(SolutionDir)\..\..\lib\soil\src;$(SolutionDir)\..\..\src\platform\win;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)\..\..\lib\soil\src;$(SolutionDir)\..\..\lib\glm;$(SolutionDir)\..\..\lib\glfw\deps;$(SolutionDir)\..\..\lib\glfw\include;$(SolutionDir)\..\..\src\platform\win;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <ProgramDataBaseFileName>$(TargetDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>../../include/;$(SolutionDir)/../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;glu32.lib;opengl32.lib;glfw3.lib;alut.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\..\lib\glfw\platform\win\bin\bin_debug;$(SolutionDir)\..\..\lib\etc</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\..\lib\glfw\platform\win\bin\bin_release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;glu32.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\include\dbTweener\dbtweener.cpp" />
+    <ClCompile Include="..\..\..\src\Actor.cpp" />
+    <ClCompile Include="..\..\..\src\AI_Player.cpp" />
+    <ClCompile Include="..\..\..\src\Animation.cpp" />
+    <ClCompile Include="..\..\..\src\Audio.cpp" />
+    <ClCompile Include="..\..\..\src\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\Fireworks.cpp" />
+    <ClCompile Include="..\..\..\src\Game.cpp" />
+    <ClCompile Include="..\..\..\src\GameController.cpp" />
+    <ClCompile Include="..\..\..\src\GameEntity.cpp" />
+    <ClCompile Include="..\..\..\src\GameScene.cpp" />
+    <ClCompile Include="..\..\..\src\GUIText.cpp" />
+    <ClCompile Include="..\..\..\src\Input.cpp" />
+    <ClCompile Include="..\..\..\src\Island.cpp" />
+    <ClCompile Include="..\..\..\src\IslandsMap.cpp" />
+    <ClCompile Include="..\..\..\src\LoseScene.cpp" />
+    <ClCompile Include="..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\src\MathUtils.cpp" />
+    <ClCompile Include="..\..\..\src\Plane.cpp" />
+    <ClCompile Include="..\..\..\src\platform\win\FileHelper.cpp" />
+    <ClCompile Include="..\..\..\src\Player.cpp" />
+    <ClCompile Include="..\..\..\src\ResourcesPaths.cpp" />
+    <ClCompile Include="..\..\..\src\SceneManager.cpp" />
+    <ClCompile Include="..\..\..\src\ServiceLocator.cpp" />
+    <ClCompile Include="..\..\..\src\Ship.cpp" />
+    <ClCompile Include="..\..\..\src\StartScene.cpp" />
+    <ClCompile Include="..\..\..\src\TextureManager.cpp" />
+    <ClCompile Include="..\..\..\src\Time.cpp" />
+    <ClCompile Include="..\..\..\src\WindowInfo.cpp" />
+    <ClCompile Include="..\..\..\src\WinScene.cpp" />
+    <ClCompile Include="..\..\..\src\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GML\GML.vcxproj">
+      <Project>{ff1fb3d4-b407-425e-bf62-e34614dad4d4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SOIL\SOIL.vcxproj">
+      <Project>{127fb6c6-8c43-41bb-92b7-a9e047153373}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\dbTweener\dbtweener.h" />
+    <ClInclude Include="..\..\..\src\Actor.hpp" />
+    <ClInclude Include="..\..\..\src\AI_Player.hpp" />
+    <ClInclude Include="..\..\..\src\Animation.hpp" />
+    <ClInclude Include="..\..\..\src\Audio.hpp" />
+    <ClInclude Include="..\..\..\src\Camera.hpp" />
+    <ClInclude Include="..\..\..\src\Fireworks.hpp" />
+    <ClInclude Include="..\..\..\src\Game.hpp" />
+    <ClInclude Include="..\..\..\src\GameController.hpp" />
+    <ClInclude Include="..\..\..\src\GameEntity.hpp" />
+    <ClInclude Include="..\..\..\src\GameScene.hpp" />
+    <ClInclude Include="..\..\..\src\GUIText.hpp" />
+    <ClInclude Include="..\..\..\src\Input.hpp" />
+    <ClInclude Include="..\..\..\src\IScene.hpp" />
+    <ClInclude Include="..\..\..\src\Island.hpp" />
+    <ClInclude Include="..\..\..\src\IslandsMap.hpp" />
+    <ClInclude Include="..\..\..\src\LoseScene.hpp" />
+    <ClInclude Include="..\..\..\src\MathUtils.hpp" />
+    <ClInclude Include="..\..\..\src\Plane.hpp" />
+    <ClInclude Include="..\..\..\src\platform\win\FileHelper.h" />
+    <ClInclude Include="..\..\..\src\Player.hpp" />
+    <ClInclude Include="..\..\..\src\ResourcesPaths.hpp" />
+    <ClInclude Include="..\..\..\src\SceneManager.hpp" />
+    <ClInclude Include="..\..\..\src\ServiceLocator.hpp" />
+    <ClInclude Include="..\..\..\src\Ship.hpp" />
+    <ClInclude Include="..\..\..\src\StartScene.hpp" />
+    <ClInclude Include="..\..\..\src\Tags.hpp" />
+    <ClInclude Include="..\..\..\src\TextureManager.hpp" />
+    <ClInclude Include="..\..\..\src\Time.hpp" />
+    <ClInclude Include="..\..\..\src\WindowInfo.hpp" />
+    <ClInclude Include="..\..\..\src\WinScene.hpp" />
+    <ClInclude Include="..\..\..\src\World.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\lib\soil\src\image_DXT.c" />
+    <ClCompile Include="..\..\..\lib\soil\src\image_helper.c" />
+    <ClCompile Include="..\..\..\lib\soil\src\SOIL.c" />
+    <ClCompile Include="..\..\..\lib\soil\src\stb_image_aug.c" />
+    <ClCompile Include="..\..\..\lib\soil\src\test_SOIL.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\lib\soil\src\image_DXT.h" />
+    <ClInclude Include="..\..\..\lib\soil\src\image_helper.h" />
+    <ClInclude Include="..\..\..\lib\soil\src\SOIL.h" />
+    <ClInclude Include="..\..\..\lib\soil\src\stbi_DDS_aug.h" />
+    <ClInclude Include="..\..\..\lib\soil\src\stbi_DDS_aug_c.h" />
+    <ClInclude Include="..\..\..\lib\soil\src\stb_image_aug.h" />
+  </ItemGroup>
+</Project>

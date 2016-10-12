@@ -1,0 +1,29 @@
+Game Details
+============
+
+This is a two-player game on a fixed screen filled with random planets. Each player has to conquer all the planets to win.
+Every player starts with a single planet, the rest remain neutral. Every conquered planet produces ships at a constant rate.
+
+In order to conquer a planet the player has to to send ships from some already conquered planets. To send ships the player has to select one or more of his planets and then select a rival or neutral one, at that moment ships will appear from every attacking planet and will start moving torwards the targeted planet. When the ships arrive at the target, the number of rival ships in that planet will decrease by the number of ships that were sent, and the same number of ships belonging to the attacker will be destroyed. If the number of attacking ships is greater than the number of rival ships then the planet is conquered and the surviving ships will stay there.
+
+A player wins when the opponent has no planets left.
+
+Game rules
+----------
+* The planets would change its owner when the number of attacking ships is superior
+* The planets that belong to a player will increase its ship capacity when conquered and decrease it when attacked
+* Beat the IA!
+
+How to play
+-----------
+* The player must select a planet, then click a neutral or enemy planet to send ships to it
+
+
+Used libraries
+--------------
+
+* http://www.glfw.org/ for window an input management
+* http://glm.g-truc.net/ for mathematics
+* http://www.lonesock.net/soil.html for image loading
+
+Made by juaxix / 2015

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\platform\win\FileHelper.cpp" />
+    <ClCompile Include="..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\src\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\GameEntity.cpp" />
+    <ClCompile Include="..\..\..\src\GameScene.cpp" />
+    <ClCompile Include="..\..\..\src\GUIText.cpp" />
+    <ClCompile Include="..\..\..\src\Input.cpp" />
+    <ClCompile Include="..\..\..\src\Island.cpp" />
+    <ClCompile Include="..\..\..\src\IslandsMap.cpp" />
+    <ClCompile Include="..\..\..\src\MathUtils.cpp" />
+    <ClCompile Include="..\..\..\src\Plane.cpp" />
+    <ClCompile Include="..\..\..\src\Player.cpp" />
+    <ClCompile Include="..\..\..\src\ResourcesPaths.cpp" />
+    <ClCompile Include="..\..\..\src\SceneManager.cpp" />
+    <ClCompile Include="..\..\..\src\ServiceLocator.cpp" />
+    <ClCompile Include="..\..\..\src\StartScene.cpp" />
+    <ClCompile Include="..\..\..\src\TextureManager.cpp" />
+    <ClCompile Include="..\..\..\src\Time.cpp" />
+    <ClCompile Include="..\..\..\src\WindowInfo.cpp" />
+    <ClCompile Include="..\..\..\src\World.cpp" />
+    <ClCompile Include="..\..\..\include\dbTweener\dbtweener.cpp" />
+    <ClCompile Include="..\..\..\src\Actor.cpp" />
+    <ClCompile Include="..\..\..\src\AI_Player.cpp" />
+    <ClCompile Include="..\..\..\src\Animation.cpp" />
+    <ClCompile Include="..\..\..\src\Audio.cpp" />
+    <ClCompile Include="..\..\..\src\Fireworks.cpp" />
+    <ClCompile Include="..\..\..\src\Game.cpp" />
+    <ClCompile Include="..\..\..\src\GameController.cpp" />
+    <ClCompile Include="..\..\..\src\LoseScene.cpp" />
+    <ClCompile Include="..\..\..\src\Ship.cpp" />
+    <ClCompile Include="..\..\..\src\WinScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\platform\win\FileHelper.h" />
+    <ClInclude Include="..\..\..\src\Camera.hpp" />
+    <ClInclude Include="..\..\..\src\GameEntity.hpp" />
+    <ClInclude Include="..\..\..\src\GameScene.hpp" />
+    <ClInclude Include="..\..\..\src\GUIText.hpp" />
+    <ClInclude Include="..\..\..\src\Input.hpp" />
+    <ClInclude Include="..\..\..\src\IScene.hpp" />
+    <ClInclude Include="..\..\..\src\Island.hpp" />
+    <ClInclude Include="..\..\..\src\IslandsMap.hpp" />
+    <ClInclude Include="..\..\..\src\MathUtils.hpp" />
+    <ClInclude Include="..\..\..\src\Plane.hpp" />
+    <ClInclude Include="..\..\..\src\Player.hpp" />
+    <ClInclude Include="..\..\..\src\ResourcesPaths.hpp" />
+    <ClInclude Include="..\..\..\src\SceneManager.hpp" />
+    <ClInclude Include="..\..\..\src\ServiceLocator.hpp" />
+    <ClInclude Include="..\..\..\src\StartScene.hpp" />
+    <ClInclude Include="..\..\..\src\Tags.hpp" />
+    <ClInclude Include="..\..\..\src\TextureManager.hpp" />
+    <ClInclude Include="..\..\..\src\Time.hpp" />
+    <ClInclude Include="..\..\..\src\WindowInfo.hpp" />
+    <ClInclude Include="..\..\..\src\World.hpp" />
+    <ClInclude Include="..\..\..\include\dbTweener\dbtweener.h" />
+    <ClInclude Include="..\..\..\src\Actor.hpp" />
+    <ClInclude Include="..\..\..\src\AI_Player.hpp" />
+    <ClInclude Include="..\..\..\src\Animation.hpp" />
+    <ClInclude Include="..\..\..\src\Audio.hpp" />
+    <ClInclude Include="..\..\..\src\Fireworks.hpp" />
+    <ClInclude Include="..\..\..\src\Game.hpp" />
+    <ClInclude Include="..\..\..\src\GameController.hpp" />
+    <ClInclude Include="..\..\..\src\LoseScene.hpp" />
+    <ClInclude Include="..\..\..\src\Ship.hpp" />
+    <ClInclude Include="..\..\..\src\WinScene.hpp" />
+  </ItemGroup>
+</Project>
